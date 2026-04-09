@@ -86,8 +86,6 @@ of using the MPAS-JEDI data assimilation system.
 </p>
 
 <p class="top">
-If you would like to refer to the accompanying lecture slides,
-you can open the <a href="agenda.html" target="_blank">Tutorial Agenda</a> in another window.
 The test dataset is available under ASPIRE 2A under the CAWRAS project folder 
 /home/project/13004327/training_service/2026-MPAS-JEDI.
 </p>
@@ -116,11 +114,9 @@ MPAS-JEDI code build for this tutorial is based upon <a href="https://github.com
 </p>
 
 <p>
-Before login to ASPIRE 2A, you need to set up your vpn to access NSCC HPC systems. Please follow the instructions from NSCC for
-	<a href="https://help.nscc.sg/wp-content/uploads/ASPIRE2A_VPN_MAC.pdf" target="_blank">Mac</a> and 
-	<a href="https://help.nscc.sg/wp-content/uploads/ASPIRE2A_VPN_WINDOWS.pdf" target="_blank">Windows</a>users.  
-<p>
-After setting up the VPN, log onto Aspire2a from your laptop or desktop by
+Before logging in to ASPIRE 2A, you need to set up your vpn to access NSCC HPC systems. Please follow the 
+	<a href="https://help.nscc.sg/wp-content/uploads/2024/06/ASPIRE2A-General-Quickstart-Guide-1.pdf" target="_blank">NSCC instructions</a>.
+After setting up the VPN, log in to Aspire2a from your laptop or desktop by
 </p>
 
 <pre class="terminal">
@@ -128,12 +124,16 @@ After setting up the VPN, log onto Aspire2a from your laptop or desktop by
 </pre>
 
 <p>
-You will be required to type your userid and password to get onto ASPIRE 2A. It is recommended to login to ASPIRE 2A within multiple terminals, each for a different
+For NUS, NTU, A*STAR, and SUTD users, please log in to ASPIRE 2A following the instructions.
+</p>
+	
+<p>
+You will be required to type your userid and password to get onto ASPIRE 2A. It is recommended to log in to ASPIRE 2A using multiple terminals, each for a different
 task.
 </p>
 
 <p>
-After login, you will be in your home directory:
+After log in, you will be in your home directory:
 </p>
 
 <pre class="terminal">
@@ -153,6 +153,12 @@ You can set an environment variable for your scratch directory as follows:
 <em class="prompt">$ </em>export SCRATCH=${HOME/home/scratch}
 </pre>
 
+<div class="outlined">
+<p>
+<b class="red">WARNING:</b> You may need to setup $SCRATCH every time you start a new terminal.
+</p>
+</div>
+	
 <p>
 You will run all of the practical exercises in your own <i>scratch</i> space, and you can check whether it is properly
 set by entering
@@ -211,7 +217,7 @@ On ASPIRE 2A, the default shell is bash.
 ASPIRE 2A uses the LMOD package to manage the software environment.
 Run <em class="terminal">module list</em> to see what modules are loaded by default
 right after you log in.
-The output something be similar to that below:
+The output is something similar to that below:
 </p>
 
 <pre class="terminal">
@@ -226,6 +232,7 @@ Currently Loaded Modulefiles:
 Post-processing and graphics exercises will need Python. A Conda environment with the required Python libraries is available, 
 and can be activated by running the following command:
 <pre class="terminal">
+<em class="prompt">$ </em>module purge
 <em class="prompt">$ </em>module load miniforge3/25.3.1
 <em class="prompt">$ </em>conda activate /home/project/13004327/software_service/conda_envs/MPAS-JEDI-Training
 </pre>
@@ -252,8 +259,11 @@ noting:
 </p>
 
 <p>
-Throughout this training, you will submit your jobs to a special project number <em class="terminal">S6244386</em>.
-After the training, please remember to use your own project number when submitting jobs.
+Throughout this training course, you will submit your jobs to a dedicated queue
+<em class="terminal">R13547281</em> with the project number
+<em class="terminal">53010008</em>.
+After the training, please remember to submit to the regular queues using your own project
+number.
 
 At various points in the practical exercises, you will need to submit jobs to
 ASPIRE 2A's queueing system
@@ -314,7 +324,7 @@ We will use the 'SINGV-NG-1.0' branch from <a href=https://github.com/mos3r3n/mp
 </pre>
 
 <p>
-The git command will clone the mpas-bundle repository from github to a local directory 'code',
+The git command will clone the mpas-bundle repository from GitHub to a local directory 'code',
 and then make the 'SINGV-NG-1.0' branch the active branch. The terminal output should look like
 the following:
 </p>
@@ -331,7 +341,7 @@ Resolving deltas: 100% (267/267), done.
 
 <p>
 Note that the mpas-bundle repository does not contain actual source code. 
-Instead, the CMakeLists.txt file under code includes the github branch/tag
+Instead, the CMakeLists.txt file under code includes the GitHub branch/tag
 information of the repositories needed to build MPAS-JEDI.
 </p>
 
@@ -389,7 +399,7 @@ You can resolve this by sourcing the environment bash file again.
 </div>
 
 <p>
-Now you are ready to 'fetch' actual source code from github repositories through cmake.
+Now you are ready to 'fetch' actual source code from GitHub repositories through cmake.
 </p>
 
 </div>
@@ -409,7 +419,7 @@ section during the course.
 </div>
 
 <p>
-MPAS-JEDI uses cmake to automatically fetch the code from various github repositories,
+MPAS-JEDI uses cmake to automatically fetch the code from various GitHub repositories,
 listed in CMakeLists.txt under the code directory. Now type the command below under
 ${SCRATCH}/MPAS-JEDI-Training/MPAS-BUNDLE:
 </p>
@@ -426,12 +436,12 @@ After it completes (it may take 15-20 min depending on the network connection), 
 repositories (e.g., oops, vader, saber, ufo, ioda, crtm, mpas-jedi, and MPAS) is now under the code directory.
 Meanwhile, Makefile files to build executables are generated under the build directory.
 Now it is possible to compile MPAS-JEDI under 'build' using the standard make program. Commonly, we don't compile MPAS-JEDI on the login node. 
-Instead, we do it by submitting an interactive job as following
+Instead, we do it by submitting an interactive job as the following
 <pre class="terminal">
-<em class="prompt">$ </em>qsub -I -l select=1:ncpus=4:mem=32gb -l walltime=01:00:00 -P ${PROJECT_NUMBER} -q normal
+<em class="prompt">$ </em>qsub -I -l select=1:ncpus=4:mem=32gb -l walltime=01:00:00 -P 53010008 -q R13547281
 </pre>
 
-Then, your job will queue, and you will login to the compute node you are assigned when it is get ready
+Then, your job will queue, and you will log in to the compute node you are assigned when it is ready
 <pre class="terminal">
 qsub: waiting for job 13405681.pbs101 to start
 qsub: job 13405681.pbs101 ready
@@ -446,7 +456,7 @@ On the compute node, you need to re-activate the spack-stack environment first a
 
 <p>
 This could take ~25 min. Using more cores for build could speed up a bit, but will not help too much from our experience. 
-Also note that the reason we do the cmake step (will clone various github repositories) on the login 
+Also note that the reason we do the cmake step (will clone various GitHub repositories) on the login 
 node instead of a compute node is that ASPIRE 2A's compute nodes have a much slower internet connection.
 </p>
 
@@ -458,7 +468,7 @@ node instead of a compute node is that ASPIRE 2A's compute nodes have a much slo
 
 <p>
 Once you reach 100% of the compilation, many executables will be generated under build/bin.
-Related executables of MPAS model and MPAS-JEDI include:
+Related executables of the MPAS model and MPAS-JEDI include:
 </p>
 
 <pre class="terminal">
@@ -484,11 +494,11 @@ with two lines of simple command:
 
 <p>
 At the moment the tests are running (take ~5 min to finish), it indicates if it passes or fails. 
-At the end, a summary is provided with a percentage of the tests that passed, failed and the processing times. 
+At the end, a summary is provided with a percentage of the tests that passed, failed, and the processing times. 
 </p>
 
 <p>
-The output to the terminal should look as following:
+The output to the terminal should look as the following:
 </p>
 
 <pre class="terminal">
@@ -594,7 +604,6 @@ set an environment variable 'bundle_dir' for convenience in the subsequent pract
 
 </div>
 
-
 <!-- ============================================================================== -->
 <!-- === 2. Converting NCEP BUFR obs into IODA-HDF5 format  ====================== -->
 <!-- ============================================================================== -->
@@ -637,7 +646,7 @@ specified via the cmake command.
 </p>
 
 <p>
-Load the proper intel compiler modules, and then compile the converter by using
+Load the spack-stack modules, and then compile the converter by using
 the <em class="terminal">make</em> command:
 </p>
 
@@ -1045,21 +1054,41 @@ One "local" file should be generated for each processor. (256 processors are use
 </pre>
 
 <p>
-To see the results of multiplying Dirac-like fields - i.e. fields that have
-unit values at selected points but zero values elsewhere - with the
-localization functions, you can make a plot from
-<em class="terminal"> dirac_nicas.2024-09-17_12.00.00.nc</em> .
+Each column of a localization matrix is associated with a single grid point,
+and the column itself is the scalar localization field associated with that
+grid point. The localization matrix itself is never directly calculated or
+stored by BUMP, but we can obtain a particular column by implicitly convolving
+the localization matrix with a "Dirac" function, which has unit value at the
+associated grid point, and zero values elsewhere.
+If we set values to unity at more than one grid point, then the result of
+convolution will be the superposition of the individual localization fields
+associated with each selected point. However, if the selected points are
+well-spaced compared with the localization scales, there will be minimal
+overlap between the individual localization fields, allowing us to easily
+distiguish between them.
 </p>
+
+<p>
+The Dirac output file
+<em class="terminal"> dirac_nicas.2024-09-17_12.00.00.nc</em> contains
+the results of convolution with a field that has unit values at selected
+well-spaced grid points and zero values elsewhere.
+</p>
+
+<p><i>
+To plot the field, first make sure that the Conda environment has been
+activated:
 
 <p><i>
 First, make sure that the Conda environment has been activated:
 </i></p>
 <pre class="terminal">
+<em class="prompt">$ </em>module purge
 <em class="prompt">$ </em>module load miniforge3/25.3.1
 <em class="prompt">$ </em>conda activate /home/project/13004327/software_service/conda_envs/MPAS-JEDI-Training
 </pre>
 <p>
-Then copy and run the plotting script for the Dirac output file:
+Then, copy and run the plotting script for the Dirac output file:
 </p>
 
 <pre class="terminal">
@@ -1080,9 +1109,9 @@ The figure should look like this:
 <img src="images/figure_bumploc.png", width="600"/>
 
 <p>
-We suggest that you try applying different horizontal or vertical localization lengths,
-and seeing how this alters the results. This is done by changing the relevant YAML keys,
-and then re-submiting the PBS job script.
+We suggest that you try applying different horizontal or vertical localization
+lengths, and see how this alters the results. This is done by changing the
+relevant YAML keys, and then re-submiting the PBS job script.
 </p>
 
 <p><i>
@@ -1132,7 +1161,7 @@ you are now ready to set up and run the first analysis test using 3DEnVar. For t
 </p>
 
 <p>
-Let's create a new working directory for this test:
+First, create and move to a new working directory for this test:
 </p>
 
 <pre class="terminal">
@@ -1142,15 +1171,15 @@ Let's create a new working directory for this test:
 </pre>
 
 <p>
-set the bundle_dir environment:
+Now, set the bundle_dir environment variable:
 <pre class="terminal">
 <em class="prompt">$ </em>export bundle_dir=/home/project/13004327/training_service/2026-MPAS-JEDI/SINGV-NG-1.0/build
 </pre>
 </p>
 
 <p>
-Again, you now prepare all necessary input files to run the MPAS-JEDI variational DA application.
-Similar to what you have done before, you need to link MPAS physics-related data and tables, MPAS graph, streams, and namelist files:
+You now need to prepare all necessary input files to run the MPAS-JEDI variational DA application.
+Similar to what you did before, link in MPAS physics-related data and tables, and MPAS graph, streams, and namelist files:
 </p>
 
 <pre class="terminal">
@@ -1167,7 +1196,7 @@ Similar to what you have done before, you need to link MPAS physics-related data
 </pre>
 
 <p>
-Then, link YAML files:
+Then, link the YAML files:
 </p>
 
 <pre class="terminal">
@@ -1177,7 +1206,7 @@ Then, link YAML files:
 </pre>
 
 <p>
-Followed by the 2-stream IO files:
+Then, link in the 2-stream IO files:
 </p>
 
 <pre class="terminal">
@@ -1186,8 +1215,9 @@ Followed by the 2-stream IO files:
 </pre>
 
 <p>
-Next, you should link the background file <em class="terminal">mpasout.2024-09-17_12.00.00.nc</em> into the working 
-directory and make a copy of the background file as the analysis file to be overwritten. 
+Next, link the background file <em class="terminal">mpasout.2024-09-17_12.00.00.nc</em> into the working 
+directory and make a template for the analysis file by copying of the background file. (The contents
+of the analysis file will later be overwritten by the program.)
 </p>
 
 <pre class="terminal">
@@ -1208,28 +1238,63 @@ Then, you need to link ensemble forecasts and bump localization files.
 </pre>
 
 <p>
-For the BUMP localization files, you can use files generated in the practice 3.1.
+For the BUMP localization files, you can also use files generated in the practice 3.1.
 </p>
 	
 <p>
-Next, you need to link observation files into the working directory. 
+Next, link in the observation files into the subdirectory dbIn.
 </p>
 
 <pre class="terminal">
-<em class="prompt">$ </em>mkdir dbIn dbOut
+<em class="prompt">$ </em>mkdir dbIn
 <em class="prompt">$ </em>cd dbIn
 <em class="prompt">$ </em>ln -fs ${SCRATCH}/MPAS-JEDI-Training/OBS_FILE/IODA/aircraft_obs_2024091712.h5 .
 <em class="prompt">$ </em>ln -fs ${SCRATCH}/MPAS-JEDI-Training/OBS_FILE/IODA/gnssro_obs_2024091712.h5 .
 <em class="prompt">$ </em>ln -fs ${SCRATCH}/MPAS-JEDI-Training/OBS_FILE/IODA/satwind_obs_2024091712.h5 .
 <em class="prompt">$ </em>ln -fs ${SCRATCH}/MPAS-JEDI-Training/OBS_FILE/IODA/sfc_obs_2024091712.h5 .
 <em class="prompt">$ </em>ln -fs ${SCRATCH}/MPAS-JEDI-Training/OBS_FILE/IODA/sondes_obs_2024091712.h5 .
-<em class="prompt">$ </em>cd ${SCRATCH}/MPAS-JEDI-Training/Variational
+<em class="prompt">$ </em>cd ..
 </pre>
 
 <p>
-Now, you are ready to link the pre-prepared <em class="terminal">3denvar.yaml</em> file for 3DEnVar. 
-<em class="terminal">3denvar.yaml</em> contains all of the settings you need for this 3DEnVar update. 
+A further subdirectory dbOut is needed for the output files: 
+</p>
+
+<<pre class="terminal">
+<em class="prompt">$ </em>mkdir dbOut
+</pre>
+
+<p>
+Now, you are ready to link in the pre-prepared <em class="terminal">3denvar.yaml</em> file for 3DEnVar. 
+<em class="terminal">3denvar.yaml</em> contains all of the settings you need for this 3DEnVar update.
+<p>
+
+<pre class="terminal">
+<em class="prompt">$ </em>cp ${SCRATCH}/MPAS-JEDI-Training/MPASJEDI_FILE/3denvar.yaml .
+</pre>
+
+<p>
 Also, copy the PBS job script. 
+</p>
+
+<pre class="terminal">
+<em class="prompt">$ </em>cp ${SCRATCH}/MPAS-JEDI-Training/MPASJEDI_FILE/run_variational.ksh .
+</pre>
+
+
+<p>
+Before submitting the job to run the 3DEnVar application, you can confirm that the test case is properly set
+by checking the value of da_test in the YAMPL file:
+</p>
+
+<pre class="terminal">
+<em class="prompt">$ </em>grep "da_test=" run_variational.ksh
+export da_test="3denvar"
+</pre>
+
+<p>
+Now, submit the PBS job script to run the executable <em class="terminal">mpasjedi_variational.x</em>,
+which is used for all of variational analysis tests.
 </p>
 
 <pre class="terminal">
@@ -1238,14 +1303,17 @@ Also, copy the PBS job script.
 </pre>
 
 <p>
-Before submitting the job to run the 3DEnVar application, you need to check whether the test case is properly set:
+Before submitting the job to run the 3DEnVar application, you can confirm that the test case is properly set
+by checking the value of da_test in the YAMPL file:
+</p>
+	
 <pre class="terminal">
 <em class="prompt">$ </em>grep "da_test=" run_variational.ksh
 export da_test="3denvar"
-</pre>
 
 <p>
-Now, you submit the PBS job script to run the following executable <em class="terminal">mpasjedi_variational.x</em>, which is used for all of our variational updates. 
+Now, submit the PBS job script to run the executable <em class="terminal">mpasjedi_variational.x</em>, 
+which is used for all of our variational analysis tests 
 </p>
 
 <pre class="terminal">
@@ -1264,6 +1332,7 @@ Now that the analysis was successful, you may plot the cost function and gradien
 </p>
 
 <pre class="terminal">
+<em class="prompt">$ </em>module purge
 <em class="prompt">$ </em>module load miniforge3/25.3.1
 <em class="prompt">$ </em>conda activate /home/project/13004327/software_service/conda_envs/MPAS-JEDI-Training
 </pre>
@@ -1346,8 +1415,8 @@ which will look like the figure below
 </div>
 <div id="hybrid" class="section">
 <p>
-In this session, you will test different deterministic DA methods. Also, you will additionally 
-assimilate more remote sensing observations, including radar reflectivity and 
+In this session, you will test different deterministic DA methods and also
+assimilate some additional remote sensing observations, including radar reflectivity and 
 satellite radiances.
 </p>
 
@@ -1360,9 +1429,9 @@ satellite radiances.
 
 <p>
 In this exercise, we will run MPAS-JEDI 3DVar and hybrid 3DEnVar. The overall procedure is similar 
-to the 3DEnVar practice in section 4.2. However, both 3DVar and hybrid 3DEnVar use the static
-background error covariance (BEC), which contains the climatological characteristics. Here, the 
-pre-generated static BEC will be used. you hope to provide a practice for static B training in future 
+to the 3DEnVar exercise in section 4.2. However, both 3DVar and hybrid 3DEnVar use the static
+background error covariance (BEC), which contains the climatologically-averaged characteristics. Here, the 
+pre-generated static BEC will be used. We hope to provide a practice for static B training in future 
 MPAS-JEDI training.
 </p>
 
@@ -1465,7 +1534,7 @@ increment, and OMB/OMA statistics. Here, you won't include detailed instructions
 </p>
 
 <p>
-After running 3DVar practice successfully, you now do the hybrid 3DEnvar practice. Similarly, backup the results of 3DVar run:
+After running 3DVar practice successfully, you now do the hybrid 3DEnVar practice. Similarly, backup the results of 3DVar run:
 
 <pre class="terminal">
 <em class="prompt">$ </em>cd ${SCRATCH}/MPAS-JEDI-Training/Variational
@@ -1623,7 +1692,7 @@ which will look like the figure below
 <div id="run_radar" class="subsection">
 
 <p>
-In this exercise, we will run radar data assimilation using the 3DEnvar method. In this exercise, 
+In this exercise, we will run radar data assimilation using the 3DEnVar method. In this exercise, 
 radar reflectivity is included as an analysis variable, and with this, the tagent linear and adjoint
 of reflectivity operator can be avoided. We still conduct the practice under ${SCRATCH}/MPAS-JEDI-Training/Variational.
 </p>
