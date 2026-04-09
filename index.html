@@ -712,15 +712,14 @@ The usage is:
 <p>
 If input_dir and output_dir are not specified, the default is the current working directory.
 If bufr_filename(s)_to_convert is not specified, the code looks for files in the input/working
-directory which have the following filename patterns: **prepbufr.bufr**, **satwnd.bufr**,
-**gnssro.bufr**, **amsua.bufr**, **airs.bufr**, **mhs.bufr**, **iasi.bufr**, **cris.bufr**.
+directory which have the following filename patterns: **prepbufr.bufr**, **gpsro.bufr**, 
+**amsua.bufr**, **mhs.bufr**,
 All files matching the patterns are converted.
 </p>
 
 <pre class="terminal">
 <em class="prompt">$ </em>source /home/project/13004327/training_service/2026-MPAS-JEDI/SINGV-NG-1.0/code/env-setup/gnu-aspire2a.sh
 <em class="prompt">$ </em>./obs2ioda_v3 prepbufr.gdas.20240917.t12z.nr.48h
-<em class="prompt">$ </em>./obs2ioda_v3 gdas.satwnd.t12z.20240917.bufr
 <em class="prompt">$ </em>./obs2ioda_v3 gdas.gpsro.t12z.20240917.bufr
 <em class="prompt">$ </em>./obs2ioda_v3 gdas.1bamua.t12z.20240917.bufr
 <em class="prompt">$ </em>./obs2ioda_v3 gdas.1bmhs.t12z.20240917.bufr
@@ -744,7 +743,6 @@ These files will be used later by some of the MPAS-JEDI tests.
 
 </div>
 
-
 <!-- === 2.3 Plot Obs locations ============================================== -->
 <div class="subheader" onClick="show('plot_loc')">
 <h3 id="plot_loc-header">2.3 Plotting observation coverage</h3>
@@ -752,14 +750,15 @@ These files will be used later by some of the MPAS-JEDI tests.
 <div id="plot_loc" class="subsection">
 
 <p>
-First, set up the Python environment required for plotting as follows.
+First, make sure the Python environment required for plotting is set up. Otherwise, set it up as follows:
 <pre class="terminal">
+<em class="prompt">$ </em>module purge
 <em class="prompt">$ </em>module load miniforge3/25.3.1
 <em class="prompt">$ </em>conda activate /home/project/13004327/software_service/conda_envs/MPAS-JEDI-Training
 </pre>
 
 <p>
-Next, copy the plotting script to the current directory, an then run it:
+Next, copy the plotting script to the current directory, and then run it:
 </p>
 
 <pre class="terminal">
