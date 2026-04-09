@@ -1059,6 +1059,8 @@ grid point. The localization matrix itself is never directly calculated or
 stored by BUMP, but we can obtain a particular column by implicitly convolving
 the localization matrix with a "Dirac" function, which has unit value at the
 associated grid point, and zero values elsewhere.
+</p>
+<p>
 If we set values to unity at more than one grid point, then the result of
 convolution will be the superposition of the individual localization fields
 associated with each selected point. However, if the selected points are
@@ -1069,7 +1071,7 @@ distiguish between them.
 
 <p>
 The Dirac output file
-<em class="terminal"> dirac_nicas.2024-09-17_12.00.00.nc</em> contains
+<em class="terminal">dirac_nicas.2024-09-17_12.00.00.nc</em> contains
 the results of convolution with a field that has unit values at selected
 well-spaced grid points and zero values elsewhere.
 </p>
@@ -1155,7 +1157,7 @@ with the original one.
 <div id="3denvar" class="subsection">
 
 <p>
-you are now ready to set up and run the first analysis test using 3DEnVar. For this 3DEnVar, you will use a 3 km background forecast and ensemble input at the same resolution.
+You are now ready to set up and run the first analysis test using 3DEnVar. For this 3DEnVar, you will use a 3 km background forecast and ensemble input at the same resolution.
 </p>
 
 <p>
@@ -1240,7 +1242,7 @@ For the BUMP localization files, you can also use files generated in the practic
 </p>
 	
 <p>
-Next, link in the observation files into the subdirectory dbIn.
+Next, link the observation files into the subdirectory dbIn.
 </p>
 
 <pre class="terminal">
@@ -1258,7 +1260,7 @@ Next, link in the observation files into the subdirectory dbIn.
 A further subdirectory dbOut is needed for the output files: 
 </p>
 
-<<pre class="terminal">
+<pre class="terminal">
 <em class="prompt">$ </em>mkdir dbOut
 </pre>
 
@@ -1291,27 +1293,8 @@ export da_test="3denvar"
 </pre>
 
 <p>
-Now, submit the PBS job script to run the executable <em class="terminal">mpasjedi_variational.x</em>,
-which is used for all of variational analysis tests.
-</p>
-
-<pre class="terminal">
-<em class="prompt">$ </em>cp ${SCRATCH}/MPAS-JEDI-Training/MPASJEDI_FILE/3denvar.yaml .
-<em class="prompt">$ </em>cp ${SCRATCH}/MPAS-JEDI-Training/MPASJEDI_FILE/run_variational.ksh .
-</pre>
-
-<p>
-Before submitting the job to run the 3DEnVar application, you can confirm that the test case is properly set
-by checking the value of da_test in the YAMPL file:
-</p>
-	
-<pre class="terminal">
-<em class="prompt">$ </em>grep "da_test=" run_variational.ksh
-export da_test="3denvar"
-
-<p>
 Now, submit the PBS job script to run the executable <em class="terminal">mpasjedi_variational.x</em>, 
-which is used for all of our variational analysis tests 
+which is used for all variational analysis tests 
 </p>
 
 <pre class="terminal">
